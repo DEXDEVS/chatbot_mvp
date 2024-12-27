@@ -1,1 +1,1 @@
-# life_hub_chatbot_mvp
+# lifehub_ai_assistant_mvp
