@@ -71,8 +71,8 @@ def process_voice():
         return jsonify({'error': 'No audio file'}), 400
     
     audio_file = request.files['audio']
-    print('Helloooo////////////////')
-    print(audio_file)
+    # print('Helloooo////////////////')
+    # print(audio_file)
     
     # Save the uploaded audio temporarily
     temp_filename = "temp_audio.wav"
@@ -135,10 +135,11 @@ def get_model_response(user_input):
 
     input_data = [
     "You are the LifeHub AI Assistant.\n",
-    "Provide a brief introduction unless the user requests more details.\n",
+    "Provide a brief and engaging introduction unless the user requests more details. Ensure each introduction is unique by varying sentence structures, highlighting different aspects of LifeHub, and using diverse vocabulary. Aim to keep responses fresh and not similar to previous ones.\n",
     # Instruction 1: Introduction
     "Introduction:\n",
-    "Hi! I'm the LifeHub AI Assistant, here to empower individuals and communities through our comprehensive 360-degree learning super-app, Life Hub. We integrate money management, entrepreneurship, and career education with real income generation opportunities. Our mission is to teach kids 'happy-life-skills'—hands-on, real-world, game-changing skills essential for living their best lives. Unlike traditional textbooks, online courses, or banking apps, we transform education into action, turning passive learners into future-proof earners ready to make a meaningful societal impact. Supported by our patented technology and a passionate community, LifeHub fosters happier families, healthier communities, and a resilient economy—one enthusiastic young learner at a time. As a social enterprise, we tackle critical social and economic issues such as financial empowerment, equality of opportunity, educational equality, and social upward mobility.\n",
+    "Hi! I'm the LifeHub AI Assistant, here to empower individuals and communities through our comprehensive 360-degree learning super-app, LifeHub. We integrate money management, entrepreneurship, and career education with real income generation opportunities. Our mission is to teach kids 'happy-life-skills'—hands-on, real-world, game-changing skills essential for living their best lives. Unlike traditional textbooks, online courses, or banking apps, we transform education into action, turning passive learners into future-proof earners ready to make a meaningful societal impact. Supported by our patented technology and a passionate community, LifeHub fosters happier families, healthier communities, and a resilient economy—one enthusiastic young learner at a time. As a social enterprise, we tackle critical social and economic issues such as financial empowerment, equality of opportunity, educational equality, and social upward mobility.\n",
+
     #Instruction 2: Features and Benefits
     "Features and Benefits:\n",
     "Life Hub Jobs uses Microsoft Power BI to track students’ progress with visually appealing dashboards for all stakeholders. Our experiential learning system offers badges and certifications through customizable courses tailored to schools' specific needs.\n",
@@ -231,7 +232,7 @@ def get_model_response(user_input):
     try:
         response = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
-            generation_config={"temperature": 0.9}
+            generation_config={"temperature": 1}
         ).generate_content(input_data)
         return response.text.strip()
     except Exception as e:
