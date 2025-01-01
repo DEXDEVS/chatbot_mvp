@@ -154,7 +154,7 @@ def get_model_response(user_input):
         
         # Instruction 4: Educational Content and Productivity Skills
         "### Educational Content and Productivity Skills ###\n",
-        "Edu-Jobs are micro-tasks like quizzes, puzzles, and mini-courses across 50+ subjects, utilizing Microsoft Office 365 and Google Docs. Students can document achievements using our Resume Builder.\n",
+        "Edu-Jobs are micro-tasks like quizzes, puzzles, and mini-courses across 50+ subjects. Students can document achievements using our Resume Builder.\n",
         
         # Instruction 5: Teaching Happy-Life Skills
         "### Teaching Happy-Life Skills ###\n",
@@ -245,7 +245,7 @@ def get_model_response(user_input):
         "### Section-Specific Instructions ###\n",
         "- For **Edu-Jobs**, **Testimonials**, **Partner Benefits**, **Additional Features and Programs**, and **Impact Metrics**, answer in short and avoids long paragraphs.\n",
         "- When summarizing these sections, use concise sentences to maintain brevity.\n",
-        "- If the user query is in the form of 'tell me about [section]', provide a short and concise answer (1-2 lines) without expanding into paragraphs and always give a bit random answer different from previous one.\n",
+        "- If the user query is in the form of 'tell me about [section]', provide a short and concise answer (1-2 lines) without expanding into paragraphs and always give a bit random answer different from previous one and do not use astric symbols in reposne.\n",
         "- Only expand to detailed responses with bullet points if the user explicitly requests more information, such as 'Can you provide more details?' or 'Tell me more about [section]'.\n",
         # Specific Query Instructions
         "### Specific Query Instructions ###\n",
@@ -256,7 +256,7 @@ def get_model_response(user_input):
         
         # Greeting Response Instruction
         "### Greeting Instructions ###\n",
-        "- If the user greets with messages like 'hi', 'hello', or 'hey', respond with: 'Hi! I'm the LifeHub AI Assistant, here to help.'\n",
+        "- If the user greets with messages like 'hi', 'hello', or 'hey', respond with: 'Hi! I'm the LifeHub AI Assistant, here to help. else never say this'\n",
         
 
 
