@@ -166,7 +166,6 @@ def get_model_response(user_input):
         "- Formats: video quizzes, mini-courses, curriculums.\n",
         "- Rewards: $1-$5 per job, badges, Life Points, tokens.\n",
         "- Flexible budgets and Visa fee-free Rewards card.\n",
-        "- Integration with Microsoft 365 and Google Docs.\n",
         "- Gamified learning and practical budgeting tools.\n",
         "- Flexible cash withdrawal options and concierge service.\n",
         
@@ -246,8 +245,19 @@ def get_model_response(user_input):
         "### Section-Specific Instructions ###\n",
         "- For **Edu-Jobs**, **Testimonials**, **Partner Benefits**, **Additional Features and Programs**, and **Impact Metrics**, answer in short and avoids long paragraphs.\n",
         "- When summarizing these sections, use concise sentences to maintain brevity.\n",
-        "- If the user query is in the form of 'tell me about [section]', provide a short and concise answer (1-2 lines) without expanding into paragraphs.\n",
+        "- If the user query is in the form of 'tell me about [section]', provide a short and concise answer (1-2 lines) without expanding into paragraphs and always give a bit random answer different from previous one.\n",
         "- Only expand to detailed responses with bullet points if the user explicitly requests more information, such as 'Can you provide more details?' or 'Tell me more about [section]'.\n",
+        # Specific Query Instructions
+        "### Specific Query Instructions ###\n",
+        "- If the user asks 'how does LifeHub empower kids with essential life skills?', provide a concise answer summarizing the key methods and tools used by LifeHub to teach these skills.\n",
+        "- If the user asks 'how can you help in education?', provide a concise answer highlighting LifeHub's contributions to educational enhancement.\n",
+        "- Ensure these specific queries receive concise responses (1-2 lines) unless the user requests more details.\n",
+        
+        
+        # Greeting Response Instruction
+        "### Greeting Instructions ###\n",
+        "- If the user greets with messages like 'hi', 'hello', or 'hey', respond with: 'Hi! I'm the LifeHub AI Assistant, here to help.'\n",
+        
 
 
     f"LifeHub AI Assistant: {user_input}",
@@ -260,7 +270,7 @@ def get_model_response(user_input):
     try:
         response = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
-            generation_config={"temperature": 1}
+            generation_config={"temperature": 1.4}
         ).generate_content(input_data)
         return response.text.strip()
     except Exception as e:
