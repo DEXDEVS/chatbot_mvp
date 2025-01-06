@@ -254,7 +254,7 @@ def get_model_response(user_input):
         "- Ensure these specific queries receive concise responses (1-2 lines) unless the user requests more details.\n",
         
         
-        # Greeting Response Instruction
+        # Greeting Response Instructions
         "### Greeting Instructions ###\n",
         "- If the user greets with messages like 'hi', 'hello', or 'hey', respond with: 'Hi! I'm the LifeHub AI Assistant, here to help. else never say this'\n",
         
