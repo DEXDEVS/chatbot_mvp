@@ -1,5 +1,8 @@
+/* Import Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -13,40 +16,43 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Position behind other content */
-    transition: opacity 0.5s ease-in-out; /* Smooth fade-out effect */
+    z-index: -1;
+    overflow: hidden;
 }
-/* Style the YouTube player for background video */
-#bg-video #player {
+
+#bg-video video {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 177.78%; /* Maintain 16:9 aspect ratio */
-    height: 100%;   /* Full height of the viewport */
-    pointer-events: none; /* Disable user interaction */
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    object-fit: cover;
 }
+
 /* Header Styles */
 h1 {
     text-align: center;
-    color: #ffffff; /* White text color */
+    color: black; /* White text color */
     font-size: 3.5em; /* Larger font size for emphasis */
     font-weight: bold; /* Bold text */
     margin-bottom: 20px;
-    background-color: #5A49F8; /* Apply the background color */
+    background-color:  #ffffff;
     padding: 10px; /* Add some padding around the heading */
     border-radius: 10px; /* Optionally round the corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for emphasis */
 }
 
-/* Chat Container */
 .chat-container {
-    background: #ffffff;
+    background: #ffffff; /* Keep the existing background color */
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
-    height: 650px;
-    overflow-y: auto;
+    height: 600px;
+    overflow-y: hidden; /* Hide the vertical scrollbar */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }
@@ -62,6 +68,7 @@ h1 {
     align-items: flex-start;
 }
 
+/* Message Avatar */
 .message .avatar {
     width: 40px; /* Fixed width */
     height: 40px; /* Fixed height */
@@ -71,37 +78,47 @@ h1 {
     background-position: center; /* Center the image within the avatar */
     margin-right: 10px;
 }
-
 /* Bot Message */
 .bot-message {
-    background-color: #ede7f6;
+    background-color: #d8daed; /* Lighter blue */
     color: #333;
     margin-right: auto;
     text-align: left;
+    font-family: 'Roboto', sans-serif; /* Add the font style */
+    font-size: 1.2em; /* Increase font size */
 }
 
 .bot-message .avatar {
     background-image: url('./static/images/new-bot-image.jpg');
-    width: 145px; /* Fixed width */
-    height: 40px;
+    width: 150px; /* Fixed width */
+    height: 48px;
     border-radius: 50%; /* Makes the avatar circular */
     background-size: cover; /* Make the image cover the entire area */
     background-repeat: no-repeat; /* Prevent the image from repeating */
     background-position: center; /* Center the image within the avatar */
     position: relative; /* Enable positioning */
-    top: -10px; /* Move the avatar up */
+
 }
 
 /* User Message */
 .user-message {
-    background-color: #d1c4e9;
-    color: #311b92;
+    background-color: #d1c4e9; /* Soft purple */
+    color: #311b92; /* Darker purple for text */
     margin-left: auto;
     text-align: right;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em; /* Increase font size */
+
 }
 
 .user-message .avatar {
     background-image: url('./img/guy.jpg');
+    width: 40px; /* Set to same value as height for circular avatar */
+    height: 40px;
+    border-radius: 50%; /* Makes the avatar circular */
+    background-size: cover; /* Make the image cover the entire area */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image within the avatar */
 }
 
 /* Input and Button */
@@ -119,8 +136,8 @@ h1 {
     border-radius: 20px;
     font-size: 1.2em; /* Increased font size */
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    /* Optional: Adjust the height of the input */
     height: 50px; /* This makes the input field taller */
+    font-family: 'Roboto', sans-serif;
 }
 
 
@@ -140,10 +157,11 @@ button {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
 }
 
 button:hover {
-    background-color: #311b92;
+    background-color: #4f80e1;
     color: #ffffff;
 }
 

@@ -16,8 +16,10 @@
 </head>
 <body>
     <div id="bg-video">
-        <!-- The YouTube Player API will dynamically load the video here -->
-        <div id="player" ></div>
+        <!-- Local video file -->
+        <video autoplay loop muted playsinline>
+            <source src="{{ url_for('static', filename='video/bgVideo.mp4') }}" type="video/mp4">
+        </video>
     </div>
 
    <div class="content">
@@ -36,8 +38,7 @@
         <button id="stopRecording" disabled>Stop Voice</button>
     </div>
 
-
-   <script>
+          <script>
     let isRecording = false;
     let mediaRecorder = null;
     let audioChunks = [];
@@ -237,9 +238,6 @@
 
 </script>
 
-
-       <!-- Include the JavaScript file -->
-    <script src="{{ url_for('static', filename='js/video.js') }}"></script>
 
 
    </div>

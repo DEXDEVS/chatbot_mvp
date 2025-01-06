@@ -18,12 +18,8 @@ from pydub.utils import which
 app = Flask(__name__)
 
 
-@app.route('/')
-def home():
-    # Background video URL with autoplay and mute
-    video_url = "https://www.youtube.com/embed/-BJF4BmbsZ8?start=10&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=-BJF4BmbsZ8"
-    return render_template('index.html', video_url=video_url)
 
+app = Flask(__name__)
 
 # Load environment variables and initialize clients
 load_dotenv()
