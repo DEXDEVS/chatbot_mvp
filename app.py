@@ -12,11 +12,8 @@ import io
 import sounddevice as sd
 import soundfile as sf
 from google.oauth2 import service_account
-import numpy as np
+#mport numpy as np
 from pydub.utils import which
-
-app = Flask(__name__)
-
 
 
 app = Flask(__name__)
@@ -44,69 +41,65 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/process_text', methods=['POST'])
 def process_text():
     data = request.get_json()
-
+    
     user_input = data.get('message', '')
-
+    
     if not user_input:
         return jsonify({'error': 'Empty message'}), 400
-
+    
     # Get response from model
     response_text = get_model_response(user_input)
-
+    
     # Generate audio response
     audio_base64 = generate_audio_response(response_text)
-
+    
     return jsonify({
         'response': response_text,
         'audio': audio_base64
     })
-
 
 @app.route('/process_voice', methods=['POST'])
 def process_voice():
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file'}), 400
-
+    
     audio_file = request.files['audio']
-    print('Helloooo////////////////')
-    print(audio_file)
-
+    # print('Helloooo////////////////')
+    # print(audio_file)
+    
     # Save the uploaded audio temporarily
     temp_filename = "temp_audio.wav"
     print(temp_filename)
     audio_file.save(temp_filename)
-
+    
     # Transcribe audio
     transcript = transcribe_audio(temp_filename)
-
+    
     # if not transcript:
     #     os.remove(temp_filename)
     #     return jsonify({'error': 'Could not transcribe audio'}), 400
-
+    
     # Get model response
     response_text = get_model_response(transcript)
-
+    
     # Generate audio response
     audio_base64 = generate_audio_response(response_text)
-
+    
     # Clean up
     # os.remove(temp_filename)
-
+    
     return jsonify({
         'transcript': transcript,
         'response': response_text,
         'audio': audio_base64
     })
-
 
 def transcribe_audio(audio_file):
     """Convert audio to text using Google Cloud Speech-to-Text."""
@@ -114,7 +107,7 @@ def transcribe_audio(audio_file):
         content = audio.read()
 
     audio_sample = speech.RecognitionAudio(content=content)
-    # print("//////////////////////////////////////////////////")
+    #print("//////////////////////////////////////////////////")
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=16000,
@@ -123,112 +116,128 @@ def transcribe_audio(audio_file):
 
     try:
         response = speech_client.recognize(config=config, audio=audio_sample)
-
+        
         if not response.results:
             return ""
         transcripts = [result.alternatives[0].transcript for result in response.results]
         print(transcripts)
-
+        
         return ' '.join(transcripts)
-
-
+    
+        
     except Exception as e:
         print(f"Error transcribing audio: {e}")
         return ""
-
+    
 
 def get_model_response(user_input):
     # Optimized Input Data for LifeHub AI Assistant
 
     input_data = [
         "You are the LifeHub AI Assistant.\n",
-        "Provide a brief introduction unless the user requests more details.\n",
+        "Respond to user queries with concise and engaging answers. For general questions, provide 1-2 lines. If more details are requested, expand to 5-6 lines with additional relevant information. Ensure each response is unique by varying sentence structures, highlighting different aspects of LifeHub, and using diverse vocabulary. Avoid repetition and keep responses fresh.\n",
+        
+        # Instruction Sections
+        "## Sections ##\n",
+        
         # Instruction 1: Introduction
-        "Introduction:\n",
-        "Hi! I'm the LifeHub AI Assistant, here to empower individuals and communities through our comprehensive 360-degree learning super-app, Life Hub. We integrate money management, entrepreneurship, and career education with real income generation opportunities. Our mission is to teach kids 'happy-life-skills'—hands-on, real-world, game-changing skills essential for living their best lives. Unlike traditional textbooks, online courses, or banking apps, we transform education into action, turning passive learners into future-proof earners ready to make a meaningful societal impact. Supported by our patented technology and a passionate community, LifeHub fosters happier families, healthier communities, and a resilient economy—one enthusiastic young learner at a time. As a social enterprise, we tackle critical social and economic issues such as financial empowerment, equality of opportunity, educational equality, and social upward mobility.\n",
+        "### Introduction ###\n",
+        "Hi! I'm the LifeHub AI Assistant, here to empower individuals and communities through our comprehensive 360-degree learning super-app, LifeHub. We integrate money management, entrepreneurship, and career education with real income generation opportunities. Our mission is to teach kids 'happy-life-skills' essential for living their best lives.\n",
+        
         # Instruction 2: Features and Benefits
-        "Features and Benefits:\n",
-        "Life Hub Jobs uses Microsoft Power BI to track students’ progress with visually appealing dashboards for all stakeholders. Our experiential learning system offers badges and certifications through customizable courses tailored to schools' specific needs.\n",
+        "### Features and Benefits ###\n",
+        "LifeHub Jobs leverages Microsoft Power BI to monitor students’ progress with visually appealing dashboards. Our experiential learning system offers badges and certifications through customizable courses tailored to schools' needs.\n",
+        
         # Instruction 3: Token Economy System
-        "Token Economy System:\n",
-        "Schools can assign Life Points convertible to cash rewards, reinforcing positive behaviors through operant conditioning. Tokens can be standalone or used alongside other rewards, incentivizing engagement and performance.\n",
+        "### Token Economy System ###\n",
+        "Schools can assign Life Points convertible to cash rewards, reinforcing positive behaviors through operant conditioning. Tokens incentivize engagement and performance, either standalone or alongside other rewards.\n",
+        
         # Instruction 4: Educational Content and Productivity Skills
-        "**Educational Content and Productivity Skills:\n",
-        "Edu-Jobs are micro-tasks (5-30 mins) like quizzes, puzzles, and mini-courses across 50+ subjects, utilizing Microsoft Office 365 and Google Docs. Students can also use our Resume Builder to document achievements.\n",
-
+        "### Educational Content and Productivity Skills ###\n",
+        "Edu-Jobs are micro-tasks like quizzes, puzzles, and mini-courses across 50+ subjects. Students can document achievements using our Resume Builder.\n",
+        
         # Instruction 5: Teaching Happy-Life Skills
-        "Teaching Happy-Life Skills:\n",
-        "Our 360° learning experience combines financial literacy, entrepreneurship, and career readiness with cash rewards, enhancing motivation, engagement, and academic performance.\n",
+        "### Teaching Happy-Life Skills ###\n",
+        "Our 360° learning experience combines financial literacy, entrepreneurship, and career readiness with cash rewards, enhancing motivation and academic performance.\n",
+        
         # Instruction 6: Edu-Jobs Features
-        "Edu-Jobs Features:\n",
+        "### Edu-Jobs Features ###\n",
         "- 2,000+ Edu-Jobs across 55+ topics.\n",
         "- Formats: video quizzes, mini-courses, curriculums.\n",
         "- Rewards: $1-$5 per job, badges, Life Points, tokens.\n",
         "- Flexible budgets and Visa fee-free Rewards card.\n",
-        "- Integration with Microsoft 365 and Google Docs.\n",
         "- Gamified learning and practical budgeting tools.\n",
         "- Flexible cash withdrawal options and concierge service.\n",
-
-        "**Testimonials:**\n",
+        
+        # Instruction 7: Testimonials
+        "### Testimonials ###\n",
         "- **The Boys & Girls Clubs of Lee County**: High engagement and increased attendance.\n",
         "- **Friends of the Children**: Empowers youth to learn and earn.\n",
         "- **Academy Prep St. Petersburg**: Significant positive impact on scholars.\n",
         "- **Arkansas Lighthouse Charter Schools**: Enhanced engagement and academic performance.\n",
         "- **Arkansas Lighthouse Academy**: Teaches financial responsibility.\n",
         "- **Friends of the Children Tampa Bay**: Integrates learning with earning effectively.\n",
-
-        "**Partner Benefits:**\n",
+        
+        # Instruction 8: Partner Benefits
+        "### Partner Benefits ###\n",
         "- Acquire new depositors and investors.\n",
         "- Strengthen client relations and community presence.\n",
         "- Enhance employee learning and loyalty.\n",
         "- Achieve ESG & CSR goals by boosting local economies.\n",
-
-        "**Additional Features and Programs:**\n",
+        
+        # Instruction 9: Additional Features and Programs
+        "### Additional Features and Programs ###\n",
         "- Reduce recidivism through financial and career education.\n",
         "- Transition from allowances to paid learning.\n",
         "- Complement physical activities with mental strength training.\n",
         "- Offer 24/7 life readiness education.\n",
         "- Provide comprehensive financial and career skills.\n",
-
-        "**Impact Metrics:**\n",
+        
+        # Instruction 10: Impact Metrics
+        "### Impact Metrics ###\n",
         "- Increased participation and motivation with financial incentives.\n",
         "- Enhanced effort, learning outcomes, and academic performance.\n",
         "- Higher engagement and test-solving efficacy in online tasks.\n",
-
-        "**Technology and Security:**\n",
-        "Life Hub utilizes secure, scalable architecture with encryption, access controls, and regular audits. AI and machine learning personalize learning experiences, integrating seamlessly with Microsoft 365, Google Docs, and other tools.\n",
-
-        "**Subscription Plans:**\n",
+        
+        # Instruction 11: Technology and Security
+        "### Technology and Security ###\n",
+        "LifeHub utilizes secure, scalable architecture with encryption, access controls, and regular audits. AI and machine learning personalize learning experiences, integrating seamlessly with Microsoft 365, Google Docs, and other tools.\n",
+        
+        # Instruction 12: Subscription Plans
+        "### Subscription Plans ###\n",
         "Various affordable and scalable plans for individuals, families, schools, and organizations with volume discounts and free future upgrades for early customers.\n",
-
-        "**Learning Modules and Support:**\n",
+        
+        # Instruction 13: Learning Modules and Support
+        "### Learning Modules and Support ###\n",
         "Customizable modules for different educational settings with free onboarding training covering app navigation, performance dashboards, and Microsoft 365 integration.\n",
-
-        "**Contact Information:**\n",
+        
+        # Instruction 14: Contact Information
+        "### Contact Information ###\n",
         "Reach out to us within 24 hours! Email: sales@electuseducation.com\n",
         "©2024 Electus Global Education Co, Inc. Tampa, Florida. All Rights Reserved.\n",
-
-        "**Infiniti AI Fund Finder™:**\n",
+        
+        # Instruction 15: Infiniti AI Fund Finder
+        "### Infiniti AI Fund Finder™ ###\n",
         "Our proprietary AI identifies and secures funding opportunities aligned with your goals. It develops tailored proposals and dual-branded marketing materials, enhancing your chances of securing grants and donations. Detailed social impact reports ensure transparency and sustained success.\n",
-
-        "**Research and Validation:**\n",
-        "Life Hub is backed by extensive research in financial literacy, entrepreneurship, and career education, validating our effective approach.\n",
-        "©2024 Electus Global Education Co, Inc. Tampa, Florida. All Rights Reserved.\n",
-
-        "**Comprehensive Impact and Testimonials:**\n",
+        
+        # Instruction 16: Research and Validation
+        "### Research and Validation ###\n",
+        "LifeHub is backed by extensive research in financial literacy, entrepreneurship, and career education, validating our effective approach.\n",
+        
+        # Instruction 17: Comprehensive Impact and Testimonials
+        "### Comprehensive Impact and Testimonials ###\n",
         "- Increased participation and motivation.\n",
         "- Improved learning outcomes and academic performance.\n",
         "- Enhanced student engagement and test-solving efficacy.\n",
         "- Positive testimonials from various educational organizations.\n",
-
-        "**Response Generation Instructions:**\n",
-        "- Adhere strictly to the above guidelines.\n",
+        
+        # Instruction 18: Response Generation Instructions
+        "### Response Generation Instructions ###\n",
+        "- Adhere strictly to the above sections.\n",
         "- Do not include external information beyond these instructions.\n",
-        "- If asked for unavailable information, respond with: 'I am sorry, but I do not have the information as my knowledge is limited to LifeHub.\n'",
+        "- If asked for unavailable information, respond with: 'I am sorry, but I do not have the information as my knowledge is limited to LifeHub.'\n",
+        "- When responding, identify the relevant section based on the user's query and extract information from there.\n",
         "- Ensure clarity, conciseness, and relevance to the user's query.\n",
-
-        "-Provide a brief response unless the user requests more details.\n",
-
         "- If asked about Infiniti or Infinity, briefly describe the Infiniti AI Fund Finder™ without providing the full introduction.\n",
         "- Provide brief responses (1-2 lines) for general questions.\n",
         "- If the user requests more details, expand the response to 5-6 lines without writing long paragraphs.\n",
@@ -250,54 +259,54 @@ def get_model_response(user_input):
         "- If the user greets with messages like 'hi', 'hello', or 'hey', respond with: 'Hi! I'm the LifeHub AI Assistant, here to help. else never say this'\n",
         
 
-        f"LifeHub AI Assistant: {user_input}",
 
-        "Output:",
+    f"LifeHub AI Assistant: {user_input}",
 
-    ]
+    "Output:",
+    
+]
+
 
     try:
         response = genai.GenerativeModel(
             model_name="gemini-1.5-flash",
-            generation_config={"temperature": 0.9}
+            generation_config={"temperature": 1.4}
         ).generate_content(input_data)
         return response.text.strip()
     except Exception as e:
         print(f"Error getting model response: {e}")
         return "I'm sorry, I couldn't process your request at the moment."
 
-
 def generate_audio_response(text):
     """Generate audio response and return as base64 string."""
     synthesis_input = texttospeech.SynthesisInput(text=text)
-
+    
     voice = texttospeech.VoiceSelectionParams(
         language_code="en-US",
         name="en-US-Journey-D",
         ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
     )
-
+    
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.LINEAR16,
         pitch=0.0,
         speaking_rate=1.0,
         sample_rate_hertz=16000
     )
-
+    
     try:
         response = tts_client.synthesize_speech(
             input=synthesis_input,
             voice=voice,
             audio_config=audio_config
         )
-
+        
         # Convert to base64
         audio_base64 = base64.b64encode(response.audio_content).decode('utf-8')
         return audio_base64
     except Exception as e:
         print(f"Error generating audio: {e}")
         return None
-
 
 if __name__ == '__main__':
     app.run(debug=True)
