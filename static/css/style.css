@@ -1,61 +1,216 @@
+/* Import Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
+    font-family: 'Roboto', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #ffffff;
+    line-height: 1.6;
+}
+/* Ensure the video fills the entire background */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#bg-video video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    object-fit: cover;
+}
+
+/* Header Styles */
+h1 {
+    text-align: center;
+    color: black; /* White text color */
+    font-size: 3.5em; /* Larger font size for emphasis */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 20px;
+    background-color:  #ffffff;
+    padding: 10px; /* Add some padding around the heading */
+    border-radius: 10px; /* Optionally round the corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for emphasis */
 }
 
 .chat-container {
-    width: 80%;
-    margin: 50px auto;
-    background: white;
+    background: #ffffff; /* Keep the existing background color */
+    border-radius: 10px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    height: 600px;
+    overflow-y: hidden; /* Hide the vertical scrollbar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
-#chatbox {
-    height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    background: #fafafa;
-}
-
+/* Message Styles */
 .message {
-    padding: 5px 10px;
-    margin: 5px 0;
-    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 70%;
+    word-wrap: break-word;
+    display: flex;
+    align-items: flex-start;
 }
 
-.message.user {
-    background: #d1e7dd;
-    text-align: right;
+/* Message Avatar */
+.message .avatar {
+    width: 40px; /* Fixed width */
+    height: 40px; /* Fixed height */
+    border-radius: 50%;
+    background-size: contain; /* Maintain the aspect ratio of the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image within the avatar */
+    margin-right: 10px;
 }
-
-.message.ai {
-    background: #f8d7da;
+/* Bot Message */
+.bot-message {
+    background-color: #d8daed; /* Lighter blue */
+    color: #333;
+    margin-right: auto;
     text-align: left;
+    font-family: 'Roboto', sans-serif; /* Add the font style */
+    font-size: 1.2em; /* Increase font size */
 }
 
-textarea {
-    width: calc(100% - 20px);
-    height: 50px;
-    margin-bottom: 10px;
+.bot-message .avatar {
+    background-image: url('./static/images/new-bot-image.jpg');
+    width: 150px; /* Fixed width */
+    height: 48px;
+    border-radius: 50%; /* Makes the avatar circular */
+    background-size: cover; /* Make the image cover the entire area */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image within the avatar */
+    position: relative; /* Enable positioning */
+
+}
+
+/* User Message */
+.user-message {
+    background-color: #d1c4e9; /* Soft purple */
+    color: #311b92; /* Darker purple for text */
+    margin-left: auto;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em; /* Increase font size */
+
+}
+
+.user-message .avatar {
+    background-image: url('./img/guy.jpg');
+    width: 40px; /* Set to same value as height for circular avatar */
+    height: 40px;
+    border-radius: 50%; /* Makes the avatar circular */
+    background-size: cover; /* Make the image cover the entire area */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image within the avatar */
+}
+
+/* Input and Button */
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 15px 20px; /* Increased padding */
+    color: black;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
+    border-radius: 20px;
+    font-size: 1.2em; /* Increased font size */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: 50px; /* This makes the input field taller */
+    font-family: 'Roboto', sans-serif;
+}
+
+
+#userInput:focus {
+    border-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: #0d6efd;
-    color: white;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #5A49F8;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
+    font-size: 1em;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
+}
+
+button:hover {
+    background-color: #4f80e1;
+    color: #ffffff;
+}
+
+button.recording {
+    background-color: #ff4444 !important;
+    color: #ffffff !important;
+}
+
+#recordingStatus {
+    text-align: center;
+    color: #ff4444;
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: none;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.typing-indicator .dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background-color: #333;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+}
+
+.typing-indicator .dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 80%, 100% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+    }
 }
