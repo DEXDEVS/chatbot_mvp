@@ -215,8 +215,8 @@ Contributions are welcome! Follow these steps to contribute:
 2. **Clone Your Fork**
 
    ```bash
-   git clone https://github.com/yourusername/lifehub-ai-assistant.git
-   cd lifehub-ai-assistant
+   git clone https://github.com/yourusername/ai-assistant.git
+   cd ai-assistant
    ```
 
 3. **Create a New Branch**
