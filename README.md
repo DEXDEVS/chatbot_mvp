@@ -1,4 +1,4 @@
-# lifehub_ai_assistant_mvp
+# ai_assistant_mvp
 
 
 
@@ -24,7 +24,7 @@
 
 ## Overview
 
-LifeHub AI Assistant is a comprehensive conversational agent designed to empower individuals and communities through interactive learning and real-time assistance. Leveraging advanced AI technologies, LifeHub integrates money management, entrepreneurship, and career education, providing users with both text and voice interactions. The assistant not only offers informative responses but also generates audio feedback, enhancing the user experience.
+AI Assistant is a comprehensive conversational agent designed to empower individuals and communities through interactive learning and real-time assistance. Leveraging advanced AI technologies, integrating money management, entrepreneurship, and career education, providing users with text and voice interactions. The assistant offers informative responses and generates audio feedback, enhancing the user experience.
 
 ## Features
 
